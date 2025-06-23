@@ -25,13 +25,16 @@
     <h2>Последние загрузки</h2>
     <div class="gallery" id="gallery">
         {% for image in images %}
-            <div class="image-card" data-name="{{ image[2] }}">
-                <div class="image-container">
-                    <a href="{{ url_for('uploaded_file', filename=image[1]) }}" target="_blank">
+            <div class="image-card" data-id="{{ image[0] }}">
+                <a href="{{ url_for('image_detail', image_id=image[0]) }}">
+                    <div class="image-container">
                         <img src="{{ url_for('uploaded_file', filename=image[1]) }}" alt="{{ image[2] }}">
-                    </a>
+                    </div>
+                </a>
+                <div class="image-caption">
+                    {{ image[2] }}
+                    <button class="delete-button" data-id="{{ image[0] }}" data-filename="{{ image[1] }}">Удалить</button>
                 </div>
-                <div class="image-caption">{{ image[2] }}</div>
             </div>
         {% endfor %}
     </div>

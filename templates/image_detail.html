@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container image-detail-container">
+        <h1>{{ image[2] }}</h1>
+
+        <div class="image-wrapper">
+            <img src="{{ url_for('uploaded_file', filename=image[1]) }}"
+                 alt="{{ image[2] }}"
+                 class="detail-image">
+        </div>
+
+        <div class="image-actions">
+            <!-- Кнопка скачивания -->
+            <a href="{{ url_for('uploaded_file', filename=image[1]) }}" download="{{ image[2] }}" class="action-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                Скачать
+            </a>
+
+            <a href="{{ url_for('index') }}" class="action-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                На главную
+            </a>
+        </div>
+
+        <div class="image-info">
+            <p><strong>ID:</strong> {{ image[0] }}</p>
+            <p><strong>Имя файла:</strong> {{ image[2] }}</p>
+            <p><strong>Загружено:</strong> {{ image[3] }}</p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

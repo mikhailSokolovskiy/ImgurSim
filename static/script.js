@@ -51,3 +51,90 @@ document.getElementById('search-button').addEventListener('click', () => {
         }
     });
 });
+
+// Обработка удаления изображений
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('delete-button')) {
+        const imageId = e.target.getAttribute('data-id');
+        const filename = e.target.getAttribute('data-filename');
+
+        if (confirm('Вы уверены, что хотите удалить это изображение?')) {
+            // Отправка запроса на сервер
+            fetch('/delete_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: imageId,
+                    filename: filename
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Удаление карточки из интерфейса
+                        const card = document.querySelector(`.image-card[data-id="${imageId}"]`);
+                        if (card) {
+                            card.style.opacity = '0';
+                            setTimeout(() => card.remove(), 300);
+                        }
+                    } else {
+                        alert('Ошибка при удалении: ' + (data.error || 'Неизвестная ошибка'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Произошла ошибка при удалении');
+                });
+        }
+    }
+});
+
+// Копирование ссылки
+document.getElementById('copy-link').addEventListener('click', function() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        const originalText = this.innerHTML;
+        this.innerHTML = '✓ Скопировано!';
+        setTimeout(() => {
+            this.innerHTML = originalText;
+        }, 2000);
+    }).catch(err => {
+        console.error('Ошибка копирования: ', err);
+        alert('Не удалось скопировать ссылку');
+    });
+});
+
+// Обработчик удаления (как на главной странице)
+// Обработчик удаления
+document.querySelector('.delete-button').addEventListener('click', function() {
+    const imageId = this.getAttribute('data-id');
+    const filename = this.getAttribute('data-filename');
+
+    if (confirm('Вы уверены, что хотите удалить это изображение?')) {
+        fetch('/delete_image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: imageId,
+                filename: filename
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Изображение удалено!');
+                    window.location.href = "{{ url_for('index') }}";
+                } else {
+                    alert('Ошибка при удалении: ' + (data.error || 'Неизвестная ошибка'));
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при удалении');
+            });
+    }
+});

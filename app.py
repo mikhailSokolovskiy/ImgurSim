@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, abort
 import os
 import sqlite3
 from werkzeug.utils import secure_filename
@@ -75,6 +75,44 @@ def uploaded_file(filename):
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/delete_image', methods=['POST'])
+def delete_image():
+    try:
+        data = request.get_json()
+        image_id = data['id']
+        filename = data['filename']
+
+        # Удаление из базы данных
+        conn = sqlite3.connect(app.config['DATABASE'])
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM images WHERE id = ?', (image_id,))
+        conn.commit()
+        conn.close()
+
+        # Удаление файла
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Ошибка при удалении: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/image/<int:image_id>')
+def image_detail(image_id):
+    conn = sqlite3.connect(app.config['DATABASE'])
+    cursor = conn.cursor()
+    # Добавляем upload_time в SELECT запрос
+    cursor.execute('SELECT id, filename, original_name, upload_time FROM images WHERE id = ?', (image_id,))
+    image = cursor.fetchone()
+    conn.close()
+
+    if not image:
+        abort(404)
+
+    return render_template('image_detail.html', image=image)
 
 if __name__ == '__main__':
     app.run(debug=True)
