@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Imgur Clone{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Главная</a>
+            <a href="{{ url_for('about') }}" class="{% if request.path == url_for('about') %}active{% endif %}">О нас</a>
+        </div>
+        <div class="site-title">
+            <h1>ImgurSIM</h1>
+        </div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Поиск...">
+            <button id="search-button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+<footer>
+    <p>© 2024 Imgur Clone. Все права НЕ защищены.</p>
+    <p>Связь с нами: <a href="mailto:contact@example.com">contact@example.com</a></p>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Загрузите изображение</h1>
+
+    <div class="upload-zone" id="drop-zone">
+        <p>Перетащите файл сюда или кликните для выбора</p>
+        <form method="post" enctype="multipart/form-data" id="upload-form">
+            <div class="file-input-wrapper">
+                <input type="file" name="file" id="file-input" accept="image/*" required>
+                <label for="file-input" class="file-upload-button">
+                    <span>Обзор</span>
+                </label>
+                <span class="file-name-display" id="file-name-display">Файл не выбран</span>
+            </div>
+
+            <div class="filename-input">
+                <input type="text" id="custom-name" name="custom_name" placeholder="Имя файла (необязательно):">
+            </div>
+
+            <button type="submit">Загрузить</button>
+        </form>
+    </div>
+
+    <h2>Последние загрузки</h2>
+    <div class="gallery" id="gallery">
+        {% for image in images %}
+            <div class="image-card" data-name="{{ image[2] }}">
+                <div class="image-container">
+                    <a href="{{ url_for('uploaded_file', filename=image[1]) }}" target="_blank">
+                        <img src="{{ url_for('uploaded_file', filename=image[1]) }}" alt="{{ image[2] }}">
+                    </a>
+                </div>
+                <div class="image-caption">{{ image[2] }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

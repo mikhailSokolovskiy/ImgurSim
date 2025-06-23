@@ -1,0 +1,65 @@
+# Игнорировать виртуальные окружения
+venv/
+env/
+.venv/
+venv*/
+env*/
+.venv*/
+
+# Игнорировать кэш Python
+__pycache__/
+*.py[cod]
+.python-version
+
+# Игнорировать файлы настроек (особенно с секретами!)
+.env
+*.env
+secrets.py
+config.py
+instance/
+
+# Игнорировать файлы базы данных (если они локальные)
+*.sqlite
+*.db
+*.sqlite3
+
+# Игнорировать загруженные файлы (если хранятся локально)
+/uploads/
+/media/
+
+# Игнорировать файлы IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Игнорировать файлы операционной системы
+.DS_Store
+Thumbs.db
+
+# Игнорировать логи и временные файлы
+*.log
+*.tmp
+*.temp
+
+# Игнорировать файлы зависимостей (для Poetry/Pipenv)
+Pipfile
+Pipfile.lock
+poetry.lock
+pyproject.toml
+
+# Игнорировать собранные файлы
+dist/
+build/
+*.egg-info/
+
+# Игнорировать тестовые файлы
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Игнорировать Jupyter ноутбуки
+*.ipynb
