@@ -37,20 +37,34 @@ document.getElementById('file-input').addEventListener('change', function(e) {
     }
 });
 
-// Поиск
-document.getElementById('search-button').addEventListener('click', () => {
+// Функция поиска
+function performSearch() {
     const searchTerm = document.getElementById('search-input').value.toLowerCase();
     const images = document.querySelectorAll('.image-card');
 
     images.forEach((image) => {
-        const name = image.dataset.name.toLowerCase();
-        if (name.includes(searchTerm)) {
+        const imageName = image.getAttribute('data-name');
+        if (imageName.includes(searchTerm)) {
             image.style.display = 'block';
         } else {
             image.style.display = 'none';
         }
     });
+}
+
+// Обработчики событий
+document.addEventListener('DOMContentLoaded', () => {
+    // По клику на кнопку
+    document.getElementById('search-button').addEventListener('click', performSearch);
+
+    // По нажатию Enter в поле ввода
+    document.getElementById('search-input').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
 });
+
 
 // Обработка удаления изображений
 document.addEventListener('click', function(e) {

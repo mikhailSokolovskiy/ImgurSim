@@ -25,7 +25,7 @@
     <h2>Последние загрузки</h2>
     <div class="gallery" id="gallery">
         {% for image in images %}
-            <div class="image-card" data-id="{{ image[0] }}">
+            <div class="image-card" data-id="{{ image[0] }}" data-name="{{ image[2] | lower }}">
                 <a href="{{ url_for('image_detail', image_id=image[0]) }}">
                     <div class="image-container">
                         <img src="{{ url_for('uploaded_file', filename=image[1]) }}" alt="{{ image[2] }}">
